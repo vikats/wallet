@@ -1,0 +1,8 @@
+{
+  "database": {
+    "uri": "mysql://root:pass@localhost:3353/wallet"
+  },
+  "crypto": {
+    "secret": "uxrywmqxyigfcjndtgmbbsnzlkegjuso"
+  }
+}

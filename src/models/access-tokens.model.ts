@@ -1,9 +1,9 @@
+import { Application } from 'express';
 import { DataTypes } from 'sequelize';
 
-// import { App } from '../app.interface';
 import { AccessTokens } from '../repositories';
 
-export default (app: any) => {
+export default (app: Application) => {
   const sequelize = app.get('dbConnection');
 
   AccessTokens.init({

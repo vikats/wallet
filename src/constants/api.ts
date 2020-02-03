@@ -1,19 +1,9 @@
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const API_PREFIX = '';
-const BAD_REQUEST_CODE = 400;
-const FORBIDDEN_CODE = 403;
-const NOT_FOUND_CODE = 404;
-const STATUS_OK_CODE = 200;
-const USER_NOT_FOUND = 'user-not-found';
-const TRUSTED_ORIGINS = ['game-service'];
+const TRUSTED_ORIGIN = 'game-service';
 
 export {
   PORT,
   API_PREFIX,
-  FORBIDDEN_CODE,
-  BAD_REQUEST_CODE,
-  NOT_FOUND_CODE,
-  STATUS_OK_CODE,
-  USER_NOT_FOUND,
-  TRUSTED_ORIGINS,
+  TRUSTED_ORIGIN,
 }

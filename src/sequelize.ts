@@ -1,13 +1,17 @@
 import { Sequelize, Options } from 'sequelize';
+import { Application } from 'express';
+import config from 'config';
+
+import mocks from './mocks/players.json';
 
 import { createHash } from './utils/hash-string';
-const mocks = require('./mocks/players.json');
 
-export default async function(app: any): Promise<any> {
+const { DB_URI } = process.env;
+
+export default async function(app: Application): Promise<any> {
+  const { uri } = config.get('database');
+
   const sequelizeOptions: Options = {
-    host: '127.0.0.1',
-    dialect: 'mysql',
-    port: 3353,
     logging: false,
     define: {
       freezeTableName: true,
@@ -20,7 +24,7 @@ export default async function(app: any): Promise<any> {
     },
   };
 
-  const sequelize: Sequelize = new Sequelize('wallet', 'root', 'pass', sequelizeOptions);
+  const sequelize: Sequelize = new Sequelize(DB_URI || uri, sequelizeOptions);
 
   app.set('dbConnection', sequelize);
 

@@ -1,8 +1,9 @@
+import { Application } from 'express';
 import { DataTypes } from 'sequelize';
 
 import { Wallets } from '../repositories';
 
-export default (app: any) => {
+export default (app: Application) => {
   const sequelize = app.get('dbConnection');
 
   Wallets.init({

@@ -1,27 +1,23 @@
 import { Request, Response } from 'express';
+import { FORBIDDEN } from 'http-status-codes';
 
-import { decryptToken } from '../utils/hash-string';
+import { createHash } from '../utils/hash-string';
 import {
-  FORBIDDEN_CODE,
-  TRUSTED_ORIGINS
-} from '../constants/api';
+  TRUSTED_ORIGIN
+} from '../constants';
 
-function isTrustOrigin(req: Request, res: Response, next: any) {
-  const { microserviceHash } = req.headers;
+export function isTrustOrigin(req: Request, res: Response, next: any) {
+  const microserviceHash = req.headers['microservice-hash'];
+  const { body } = req;
 
   if (!microserviceHash) {
-    return res.sendStatus(FORBIDDEN_CODE);
+    return res.sendStatus(FORBIDDEN);
   }
-  const originInfo = decryptToken(microserviceHash);
-  const { microserviceName } = JSON.parse(originInfo);
 
-  if (!TRUSTED_ORIGINS.includes(microserviceName)) {
-    return res.sendStatus(FORBIDDEN_CODE);
+  const hash = createHash({ microserviceName: TRUSTED_ORIGIN, body });
+  if (microserviceHash !== hash) {
+    return res.sendStatus(FORBIDDEN);
   }
 
   return next();
-}
-
-export {
-  isTrustOrigin,
 }

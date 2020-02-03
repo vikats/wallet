@@ -1,37 +1,29 @@
 import { Request, Response } from 'express';
+import { BAD_REQUEST, NOT_FOUND, OK } from 'http-status-codes';
 
 import app from '../app';
-import {
-  BAD_REQUEST_CODE,
-  NOT_FOUND_CODE,
-  STATUS_OK_CODE,
-} from '../constants/api';
 
-async function withdrawBalance(req: Request, res: Response) {
+export async function withdrawBalance(req: Request, res: Response) {
   const { models } = app.get('dbConnection');
 
   const { betAmount, playerId } = req.body;
   if (!betAmount) {
-    return res.sendStatus(BAD_REQUEST_CODE);
+    return res.sendStatus(BAD_REQUEST);
   }
 
   const wallet = await models.wallets.getByPlayerId(playerId);
   if (!wallet) {
-    return res.sendStatus(NOT_FOUND_CODE);
+    return res.sendStatus(NOT_FOUND);
   }
   const { balance } = wallet;
 
   if (balance < betAmount) {
-    return res.sendStatus(BAD_REQUEST_CODE);
+    return res.sendStatus(BAD_REQUEST);
   }
 
   wallet.balance = balance - betAmount;
 
   await wallet.save();
 
-  return res.sendStatus(STATUS_OK_CODE);
-}
-
-export {
-  withdrawBalance,
+  return res.sendStatus(OK);
 }
