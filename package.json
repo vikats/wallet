@@ -8,7 +8,7 @@
     "compile": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "config": "^3.2.5",
+    "config": "^3.3.8",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
